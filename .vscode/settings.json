@@ -1,3 +1,6 @@
 {
-    "workbench.colorTheme": "Dark 2026"
+  "workbench.colorTheme": "Dark 2026",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "files.autoSave": "off"
 }
