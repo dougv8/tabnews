@@ -6,10 +6,12 @@
   "dependencies": {
     "caniuse-lite": "^1.0.30001793",
     "client-only": "^0.0.1",
+    "dotenv": "^16.4.4",
     "js-tokens": "^4.0.0",
     "loose-envify": "^1.4.0",
     "nanoid": "^3.3.12",
     "next": "^13.5.11",
+    "node-pg-migrate": "^6.2.2",
     "pg": "^8.11.3",
     "picocolors": "^1.1.1",
     "postcss": "^8.4.14",
@@ -29,7 +31,9 @@
     "lint:check": "prettier --check .",
     "lint:fix": "prettier --write .",
     "test": "jest",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
+    "migration:create": "node-pg-migrate --migrations-dir infra/migrations create",
+    "migration:up": "node-pg-migrate --migrations-dir infra/migrations --envPath .env.development up"
   },
   "author": "",
   "license": "MIT",
