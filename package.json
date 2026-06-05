@@ -7,6 +7,7 @@
     "caniuse-lite": "^1.0.30001793",
     "client-only": "^0.0.1",
     "dotenv": "^16.4.4",
+    "dotenv-expand": "^11.0.6",
     "js-tokens": "^4.0.0",
     "loose-envify": "^1.4.0",
     "nanoid": "^3.3.12",
@@ -30,8 +31,8 @@
     "services:down": "docker compose -f infra/compose.yaml down",
     "lint:check": "prettier --check .",
     "lint:fix": "prettier --write .",
-    "test": "jest",
-    "test:watch": "jest --watchAll",
+    "test": "jest --runInBand",
+    "test:watch": "jest --watchAll --runInBand",
     "migration:create": "node-pg-migrate --migrations-dir infra/migrations create",
     "migration:up": "node-pg-migrate --migrations-dir infra/migrations --envPath .env.development up"
   },
