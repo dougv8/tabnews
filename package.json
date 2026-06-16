@@ -13,6 +13,7 @@
     "loose-envify": "1.4.0",
     "nanoid": "5.1.11",
     "next": "16.2.9",
+    "next-connect": "1.0.0",
     "node-pg-migrate": "8.0.4",
     "pg": "8.21.0",
     "picocolors": "1.1.1",
