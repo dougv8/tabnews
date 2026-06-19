@@ -25,7 +25,8 @@
     "source-map-js": "1.2.1",
     "styled-jsx": "5.1.7",
     "swr": "2.4.1",
-    "tslib": "2.8.1"
+    "tslib": "2.8.1",
+    "uuid": "14.0.0"
   },
   "scripts": {
     "dev": "npm run services:up && npm run services:wait:database && npm run migrations:up && next dev",
