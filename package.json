@@ -1,6 +1,7 @@
 {
   "name": "tabnews",
   "version": "1.0.0",
+  "type": "module",
   "description": "Implementação do https://www.tabnews.com.br para o https://curso.dev",
   "main": "index.js",
   "dependencies": {
@@ -24,12 +25,13 @@
     "source-map-js": "1.2.1",
     "styled-jsx": "5.1.7",
     "swr": "2.4.1",
-    "tslib": "2.8.1"
+    "tslib": "2.8.1",
+    "uuid": "14.0.0"
   },
   "scripts": {
     "dev": "npm run services:up && npm run services:wait:database && npm run migrations:up && next dev",
-    "test": "npm run services:up && concurrently -n next,jest --hide next -k -s command-jest \"next dev\" \"jest --runInBand --verbose\" ",
-    "test:watch": "jest --watchAll --runInBand --verbose",
+    "test": "npm run services:up && concurrently -n next,jest --hide next -k -s command-jest \"next dev\" \"NODE_OPTIONS=--experimental-vm-modules jest --runInBand --verbose\" ",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watchAll --runInBand --verbose",
     "posttest": "npm run services:stop",
     "services:up": "docker compose -f infra/compose.yaml up -d",
     "services:stop": "docker compose -f infra/compose.yaml stop",

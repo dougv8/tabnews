@@ -1,12 +1,13 @@
 import { runner } from "node-pg-migrate";
 import { join } from "node:path";
-import database from "infra/database";
+import database from "infra/database.js";
 
 const defaultMigrationOptions = {
   dryRun: true,
   dir: join("infra", "migrations"),
   direction: "up",
-  verbose: true,
+  //verbose: true,
+  log: () => {},
   migrationsTable: "pgmigrations",
 };
 
