@@ -3,7 +3,7 @@ import {
   MethodNotAllowedError,
   ValidationError,
   NotFoundError,
-  UnauthotizedError,
+  UnauthorizedError,
 } from "infra/errors";
 import * as cookie from "cookie";
 import session from "models/session.js";
@@ -17,7 +17,7 @@ function onErrorHandler(error, request, response) {
   if (
     error instanceof ValidationError ||
     error instanceof NotFoundError ||
-    error instanceof UnauthotizedError
+    error instanceof UnauthorizedError
   ) {
     return response.status(error.statusCode).json(error);
   }

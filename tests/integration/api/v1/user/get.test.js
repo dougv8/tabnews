@@ -143,7 +143,7 @@ describe("GET /api/v1/user", () => {
 
       const responseBody = await response.json();
       expect(responseBody).toEqual({
-        name: "UnauthotizedError",
+        name: "UnauthorizedError",
         message: "Usuário não possui sessão válida.",
         action: "Verifique se este usuário está logado e tente novamente.",
         status_code: 401,
@@ -173,7 +173,7 @@ describe("GET /api/v1/user", () => {
 
       const responseBody = await response.json();
       expect(responseBody).toEqual({
-        name: "UnauthotizedError",
+        name: "UnauthorizedError",
         message: "Usuário não possui sessão válida.",
         action: "Verifique se este usuário está logado e tente novamente.",
         status_code: 401,
