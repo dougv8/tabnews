@@ -29,7 +29,7 @@ async function create(userId) {
 }
 
 async function findOneValidByToken(sessionToken) {
-  const sessionFound = runSelectQuery(sessionToken);
+  const sessionFound = await runSelectQuery(sessionToken);
   return sessionFound;
 
   async function runSelectQuery(sessionToken) {
@@ -61,7 +61,7 @@ async function findOneValidByToken(sessionToken) {
 
 async function renew(sessionId) {
   const expiresAt = new Date(Date.now() + EXPIRATION_IN_MILLISECONDS);
-  const renewSessionObject = runUpdateQuery(sessionId, expiresAt);
+  const renewSessionObject = await runUpdateQuery(sessionId, expiresAt);
   return renewSessionObject;
 
   async function runUpdateQuery(sessionId, expiresAt) {
@@ -85,7 +85,7 @@ async function renew(sessionId) {
 }
 
 async function expireById(sessionId) {
-  const renewSessionObject = runUpdateQuery(sessionId);
+  const renewSessionObject = await runUpdateQuery(sessionId);
   return renewSessionObject;
 
   async function runUpdateQuery(sessionId) {
