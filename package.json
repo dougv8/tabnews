@@ -18,6 +18,7 @@
     "next": "16.2.9",
     "next-connect": "1.0.0",
     "node-pg-migrate": "8.0.4",
+    "nodemailer": "9.0.1",
     "pg": "8.21.0",
     "picocolors": "1.1.1",
     "postcss": "8.5.15",
