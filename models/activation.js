@@ -1,8 +1,9 @@
 import email from "infra/email.js";
 import dataBase from "infra/database.js";
 import webserver from "infra/webserver.js";
+import { NotFoundError } from "infra/errors.js";
 
-const EXPIRATION_IN_MILLISECONDS = 60 * 15 * 1000; // 1 Minutes
+const EXPIRATION_IN_MILLISECONDS = 60 * 15 * 1000; // 15 Minutes
 
 async function create(userId) {
   const expiresAt = new Date(Date.now() + EXPIRATION_IN_MILLISECONDS);
@@ -27,11 +28,11 @@ async function create(userId) {
   }
 }
 
-async function findOneByUserId(userId) {
-  const userFound = await runSelectQuery(userId);
+async function findOneValidById(id) {
+  const userFound = await runSelectQuery(id);
   return userFound;
 
-  async function runSelectQuery(userId) {
+  async function runSelectQuery(id) {
     const result = await dataBase.query({
       text: `
       SELECT 
@@ -39,19 +40,22 @@ async function findOneByUserId(userId) {
       FROM
         user_activation_tokens
       WHERE 
-        user_id=$1
+        id=$1
+        AND used_at IS NULL
+        AND expires_at > NOW()
       LIMIT
         1
       ;`,
-      values: [userId],
+      values: [id],
     });
 
-    // if (result.rowCount === 0) {
-    //   throw new NotFoundError({
-    //     message: "O username informado não foi encontrado no sistema.",
-    //     action: "Verifique se o username foi digitado corretamente.",
-    //   });
-    // }
+    if (result.rowCount === 0) {
+      throw new NotFoundError({
+        message:
+          "O token de ativação não foi encontrado no sistema ou expirou.",
+        action: "Faça um novo cadastro.",
+      });
+    }
     return result.rows[0];
   }
 }
@@ -80,7 +84,7 @@ async function sendEmailToUser(user, activationToken) {
 const activation = {
   sendEmailToUser,
   create,
-  findOneByUserId,
+  findOneValidById,
 };
 
 export default activation;
