@@ -1,6 +1,7 @@
 import activation from "models/activation";
 import orchestrator from "tests/orchestrator.js";
 import webserver from "infra/webserver.js";
+import user from "models/user.js";
 
 beforeAll(async () => {
   await orchestrator.waitForAllServices();
@@ -12,6 +13,8 @@ beforeAll(async () => {
 //"Use case: Registration Flow (all successful)"
 describe("Use case: Registration Flow (all successful)", () => {
   let createUserResponseBody;
+  let activationTokenId;
+
   test("Create user account", async () => {
     const createdUserResponse = await fetch(
       "http://localhost:3000/api/v1/users",
@@ -51,19 +54,33 @@ describe("Use case: Registration Flow (all successful)", () => {
     expect(lastEmail.subject).toBe("Ative seu cadastro no FinTab!");
     expect(lastEmail.text).toContain("RegistrationFlow");
 
-    const activationToken = await orchestrator.extractUUID(lastEmail.text);
+    activationTokenId = await orchestrator.extractUUID(lastEmail.text);
 
     expect(lastEmail.text).toContain(
-      `${webserver.origin}/cadastro/ativar/${activationToken}`,
+      `${webserver.origin}/cadastro/ativar/${activationTokenId}`,
     );
     const activationTokenObject =
-      await activation.findOneValidById(activationToken);
+      await activation.findOneValidById(activationTokenId);
 
     expect(createUserResponseBody.id).toBe(activationTokenObject.user_id);
     expect(activationTokenObject.used_at).toBe(null);
   });
 
-  test("Active account", async () => {});
+  test("Active account", async () => {
+    const activationResponse = await fetch(
+      `http://localhost:3000/api/v1/activations/${activationTokenId}`,
+      {
+        method: "PATCH",
+      },
+    );
+    expect(activationResponse.status).toBe(200);
+
+    const activationResponseBody = await activationResponse.json();
+    expect(Date.parse(activationResponseBody.used_at)).not.toBeNaN();
+
+    const activateUser = await user.findOneByUsername("RegistrationFlow");
+    expect(activateUser.features).toEqual(["create:session"]);
+  });
 
   test("Login", async () => {});
 
