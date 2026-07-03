@@ -84,8 +84,8 @@ async function getLastEmail() {
   return lastEmailItem;
 }
 
-async function activateUser(inactiveUser) {
-  return await activation.activateUserByUserId(inactiveUser.id);
+async function activateUser(userId) {
+  return await activation.activateUserByUserId(userId);
 }
 
 function extractUUID(text) {

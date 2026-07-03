@@ -32,7 +32,7 @@ describe("GET /api/v1/user", () => {
         username: "userWithValidSession",
       });
 
-      const activatedUser = await orchestrator.activateUser(createdUser);
+      const activatedUser = await orchestrator.activateUser(createdUser.id);
 
       const sessionObject = await orchestrator.createSession(createdUser.id);
 
@@ -100,7 +100,7 @@ describe("GET /api/v1/user", () => {
         username: "UserWithSessionAboutToExpire",
       });
 
-      const activatedUser = await orchestrator.activateUser(createdUser);
+      const activatedUser = await orchestrator.activateUser(createdUser.id);
 
       const sessionObject = await orchestrator.createSession(createdUser.id);
       jest.useRealTimers();
