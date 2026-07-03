@@ -113,8 +113,6 @@ describe("Use case: Registration Flow (all successful)", () => {
     expect(userResponse.status).toBe(200);
 
     const userResponseBody = await userResponse.json();
-    //console.log(userResponseBody);
-    //console.log(createSessionsResponseBody);
 
     expect(userResponseBody.id).toBe(createSessionsResponseBody.user_id);
   });
