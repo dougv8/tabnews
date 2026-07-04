@@ -88,6 +88,11 @@ async function activateUser(userId) {
   return await activation.activateUserByUserId(userId);
 }
 
+async function addFeaturesToUser(userObject, features) {
+  const updatedUser = await user.addFeatures(userObject.id, features);
+  return updatedUser;
+}
+
 function extractUUID(text) {
   const match = text.match(/[0-9a-fA-f-]{36}/);
   return match ? match[0] : null;
@@ -102,6 +107,7 @@ const orchestrator = {
   deleteAllEmails,
   getLastEmail,
   activateUser,
+  addFeaturesToUser,
   extractUUID,
 };
 
