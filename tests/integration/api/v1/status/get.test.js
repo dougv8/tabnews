@@ -22,7 +22,7 @@ describe("GET /api/v1/status", () => {
     });
   });
   describe("Privileged user", () => {
-    test("With 'read:status:all'", async () => {
+    test("With `read:status:all`", async () => {
       const createdUser = await orchestrator.createUSer();
       const activatedUser = await orchestrator.activateUser(createdUser.id);
       await orchestrator.addFeaturesToUser(createdUser, ["create:migration"]);
