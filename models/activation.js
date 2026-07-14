@@ -64,20 +64,20 @@ async function findOneValidById(id) {
 
 async function sendEmailToUser(user, activationToken) {
   await email.send({
-    from: "Fintab <contato@fintab.com.br>",
+    from: "CursoDev <contato@cursodev.douglaspontes.com.br>",
     to: user.email,
-    subject: "Ative seu cadastro no FinTab!",
+    subject: "Ative seu cadastro no CursoDev!",
     text: makeDefaultMessage(user, activationToken),
   });
 
   function makeDefaultMessage(user, activationToken) {
     const mensage = [
-      `${user.username}, clique no link abaixo para ativar o seu cadastro no FinTab!`,
+      `${user.username}, clique no link abaixo para ativar o seu cadastro no CursoDev!`,
       "", // Linha em branco
       `${webserver.origin}/cadastro/ativar/${activationToken.id}`,
       "", // Linha em branco
       "Atenciosamente,",
-      "Equipe FinTab.",
+      "Equipe CursoDev.",
     ].join("\n");
     return mensage;
   }
