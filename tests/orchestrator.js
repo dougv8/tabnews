@@ -4,6 +4,7 @@ import database from "infra/database";
 import migrator from "models/migrator.js";
 import user from "models/user.js";
 import session from "models/session.js";
+import activation from "models/activation.js";
 
 const emailHttpUrl = `http://${process.env.EMAIL_HTTP_HOST}:${process.env.EMAIL_HTTP_PORT}`;
 
@@ -45,9 +46,9 @@ async function runPendingMigrations() {
 async function createUSer(userObject) {
   return await user.create({
     username:
-      userObject.username || faker.internet.username().replace(/[_.-]/g, ""),
-    email: userObject.email || faker.internet.email(),
-    password: userObject.password || "validPassword",
+      userObject?.username || faker.internet.username().replace(/[_.-]/g, ""),
+    email: userObject?.email || faker.internet.email(),
+    password: userObject?.password || "validPassword",
   });
 }
 
@@ -68,6 +69,10 @@ async function getLastEmail() {
   const emailListBody = await emailListResponse.json();
   const lastEmailItem = emailListBody.pop();
 
+  if (!lastEmailItem) {
+    return null;
+  }
+
   const emailTextResponse = await fetch(
     `${emailHttpUrl}/messages/${lastEmailItem.id}.plain`,
     {
@@ -79,6 +84,20 @@ async function getLastEmail() {
   return lastEmailItem;
 }
 
+async function activateUser(userId) {
+  return await activation.activateUserByUserId(userId);
+}
+
+async function addFeaturesToUser(userObject, features) {
+  const updatedUser = await user.addFeatures(userObject.id, features);
+  return updatedUser;
+}
+
+function extractUUID(text) {
+  const match = text.match(/[0-9a-fA-f-]{36}/);
+  return match ? match[0] : null;
+}
+
 const orchestrator = {
   waitForAllServices,
   clearDatabase,
@@ -87,6 +106,9 @@ const orchestrator = {
   createSession,
   deleteAllEmails,
   getLastEmail,
+  activateUser,
+  addFeaturesToUser,
+  extractUUID,
 };
 
 export default orchestrator;
