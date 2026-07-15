@@ -55,7 +55,6 @@ describe("models/authorization.js", () => {
       const createdUser = {
         features: ["read:user"],
       };
-      //authorization.filterOutput(createdUser, "read:user");
       expect(() => {
         authorization.filterOutput(createdUser, "read:user");
       }).toThrow(InternalServerError);
@@ -79,8 +78,8 @@ describe("models/authorization.js", () => {
         id: 1,
         username: "resource",
         features: ["read:user"],
-        created_at: "2026-0101T00:00:00.000Z",
-        updated_at: "2026-0101T00:00:00.000Z",
+        created_at: "2026-01-01T00:00:00.000Z",
+        updated_at: "2026-01-01T00:00:00.000Z",
         email: "resource@gmail.com",
         password: "resource",
       };
@@ -95,8 +94,8 @@ describe("models/authorization.js", () => {
         id: 1,
         username: "resource",
         features: ["read:user"],
-        created_at: "2026-0101T00:00:00.000Z",
-        updated_at: "2026-0101T00:00:00.000Z",
+        created_at: "2026-01-01T00:00:00.000Z",
+        updated_at: "2026-01-01T00:00:00.000Z",
       });
     });
   });
