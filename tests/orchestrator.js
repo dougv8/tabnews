@@ -85,8 +85,8 @@ async function getLastEmail() {
   return lastEmailItem;
 }
 
-async function activateUser(userId) {
-  return await activation.activateUserByUserId(userId);
+async function activateUser(userObject) {
+  return await activation.activateUserByUserId(userObject.id);
 }
 
 async function addFeaturesToUser(userObject, features) {
