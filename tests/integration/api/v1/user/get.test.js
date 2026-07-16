@@ -29,7 +29,7 @@ describe("GET /api/v1/user", () => {
   });
   describe("Default user", () => {
     test("With valid session", async () => {
-      const createdUser = await orchestrator.createUSer({
+      const createdUser = await orchestrator.createUser({
         username: "userWithValidSession",
       });
 
@@ -96,7 +96,7 @@ describe("GET /api/v1/user", () => {
             (session.EXPIRATION_IN_MILLISECONDS - tenSecondsInMiliseconds),
         ),
       });
-      const createdUser = await orchestrator.createUSer({
+      const createdUser = await orchestrator.createUser({
         username: "UserWithSessionAboutToExpire",
       });
 
@@ -188,7 +188,7 @@ describe("GET /api/v1/user", () => {
         now: new Date(Date.now() - session.EXPIRATION_IN_MILLISECONDS),
       });
 
-      const createdUser = await orchestrator.createUSer({
+      const createdUser = await orchestrator.createUser({
         username: "UserWithExpiredession",
       });
 

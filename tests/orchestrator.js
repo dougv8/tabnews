@@ -44,7 +44,7 @@ async function runPendingMigrations() {
   await migrator.runPendingMigrations();
 }
 
-async function createUSer(userObject) {
+async function createUser(userObject) {
   return await user.create({
     username:
       userObject?.username || faker.internet.username().replace(/[_.-]/g, ""),
@@ -103,7 +103,7 @@ const orchestrator = {
   waitForAllServices,
   clearDatabase,
   runPendingMigrations,
-  createUSer,
+  createUser,
   createSession,
   deleteAllEmails,
   getLastEmail,
