@@ -9,7 +9,7 @@
     "bcryptjs": "3.0.3",
     "caniuse-lite": "1.0.30001806",
     "client-only": "0.0.1",
-    "cookie": "1.1.1",
+    "cookie": "2.0.1",
     "js-tokens": "10.0.0",
     "loose-envify": "1.4.0",
     "nanoid": "6.0.0",
@@ -44,7 +44,7 @@
     "migrations:up:dry": "node-pg-migrate --migrations-dir infra/migrations --envPath .env.development --dry-run up",
     "lint:prettier:check": "prettier --check .",
     "lint:prettier:fix": "prettier --write .",
-    "lint:eslint:check": "eslint .",
+    "lint:eslint:check": "eslint . --max-warnings 0",
     "prepare": "husky",
     "commit": "cz"
   },
@@ -78,5 +78,9 @@
   },
   "engines": {
     "node": "24"
+  },
+  "allowScripts": {
+    "sharp@0.34.5": true,
+    "unrs-resolver@1.12.2": true
   }
 }
