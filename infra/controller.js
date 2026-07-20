@@ -6,7 +6,7 @@ import {
   UnauthorizedError,
   ForbiddenError,
 } from "infra/errors.js";
-import * as cookie from "cookie";
+import { stringifySetCookie } from "cookie";
 import session from "models/session.js";
 import user from "models/user.js";
 import authorization from "models/authorization.js";
@@ -37,18 +37,23 @@ function onErrorHandler(error, request, response) {
 }
 
 function setSessionCookie(sessionToken, response) {
-  const setCookie = cookie.serialize("session_id", sessionToken, {
+  const setCookie = stringifySetCookie({
+    name: "session_id",
+    value: sessionToken,
     path: "/",
     maxAge: session.EXPIRATION_IN_MILLISECONDS / 1000,
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
+    sameSite: "lax",
   });
 
   response.setHeader("Set-Cookie", setCookie);
 }
 
 function clearSessionCookie(response) {
-  const setCookie = cookie.serialize("session_id", "invalid", {
+  const setCookie = stringifySetCookie({
+    name: "session_id",
+    value: "invalid",
     path: "/",
     maxAge: -1,
     secure: process.env.NODE_ENV === "production",

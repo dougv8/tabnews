@@ -1,5 +1,6 @@
 import orchestrator from "tests/orchestrator.js";
 import { version as uuidVersion } from "uuid";
+import webserver from "infra/webserver.js";
 
 beforeAll(async () => {
   await orchestrator.waitForAllServices();
@@ -10,14 +11,14 @@ beforeAll(async () => {
 describe("GET /api/v1/users/[username]", () => {
   describe("Anonymous user", () => {
     test("With exact case match", async () => {
-      await orchestrator.createUSer({
+      await orchestrator.createUser({
         username: "MesmoCase",
         email: "mesmo.case@gmail.com",
         password: "abcd1234",
       });
 
       const response2 = await fetch(
-        "http://localhost:3000/api/v1/users/MesmoCase",
+        `${webserver.origin}/api/v1/users/MesmoCase`,
       );
 
       expect(response2.status).toBe(200);
@@ -36,14 +37,14 @@ describe("GET /api/v1/users/[username]", () => {
     });
 
     test("With case mismatch", async () => {
-      await orchestrator.createUSer({
+      await orchestrator.createUser({
         username: "CaseDiferente",
         email: "case.diferente@gmail.com",
         password: "abcd1234",
       });
 
       const response2 = await fetch(
-        "http://localhost:3000/api/v1/users/casediferente",
+        `${webserver.origin}/api/v1/users/casediferente`,
       );
 
       expect(response2.status).toBe(200);
@@ -63,7 +64,7 @@ describe("GET /api/v1/users/[username]", () => {
 
     test("With nonexistente username", async () => {
       const response = await fetch(
-        "http://localhost:3000/api/v1/users/UsuarioInexistente",
+        `${webserver.origin}/api/v1/users/UsuarioInexistente`,
       );
 
       expect(response.status).toBe(404);

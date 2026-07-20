@@ -5,6 +5,7 @@ import migrator from "models/migrator.js";
 import user from "models/user.js";
 import session from "models/session.js";
 import activation from "models/activation.js";
+import webserver from "infra/webserver.js";
 
 const emailHttpUrl = `http://${process.env.EMAIL_HTTP_HOST}:${process.env.EMAIL_HTTP_PORT}`;
 
@@ -16,7 +17,7 @@ async function waitForAllServices() {
     return retry(fetchStatusPage, { retries: 100, maxTimeout: 1000 });
 
     async function fetchStatusPage() {
-      const response = await fetch("http://localhost:3000/api/v1/status");
+      const response = await fetch(`${webserver.origin}/api/v1/status`);
       if (response.status !== 200) {
         throw Error();
       }
@@ -43,7 +44,7 @@ async function runPendingMigrations() {
   await migrator.runPendingMigrations();
 }
 
-async function createUSer(userObject) {
+async function createUser(userObject) {
   return await user.create({
     username:
       userObject?.username || faker.internet.username().replace(/[_.-]/g, ""),
@@ -52,8 +53,8 @@ async function createUSer(userObject) {
   });
 }
 
-async function createSession(userId) {
-  return await session.create(userId);
+async function createSession(userObject) {
+  return await session.create(userObject.id);
 }
 
 async function deleteAllEmails() {
@@ -84,8 +85,8 @@ async function getLastEmail() {
   return lastEmailItem;
 }
 
-async function activateUser(userId) {
-  return await activation.activateUserByUserId(userId);
+async function activateUser(userObject) {
+  return await activation.activateUserByUserId(userObject.id);
 }
 
 async function addFeaturesToUser(userObject, features) {
@@ -102,7 +103,7 @@ const orchestrator = {
   waitForAllServices,
   clearDatabase,
   runPendingMigrations,
-  createUSer,
+  createUser,
   createSession,
   deleteAllEmails,
   getLastEmail,
